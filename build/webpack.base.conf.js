@@ -1,89 +1,93 @@
-var path = require('path')
-var utils = require('./utils')
-var webpack = require('webpack')
-var config = require('../config')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-var glob = require('glob');
-var entries =  utils.getMultiEntry('./vuesrc/'+config.moduleName+'/**/**/*.js'); // 获得入口js文件
-var chunks = Object.keys(entries);
+const path = require('path')
+const webpack = require('webpack')
+const utils = require('./utils')
 
-console.log(chunks)
+const isProduction = process.env.NODE_ENV === 'production'
+const isSourceMap = process.env.npm_config_map
 
-var projectRoot = path.resolve(__dirname, '../')
-
-var vueLoaderConfig = require('./vue-loader.conf')
-
-function resolve (dir) {
-  return path.join(__dirname, '..', dir)
+function resolve(dir) {
+    return path.join(__dirname, '..', dir)
 }
 
-var webpackConfig = {
-
-  entry:entries,
-  output: {
-    path: config.build.assetsRoot,
-    filename: '[name].js',
-    publicPath: process.env.NODE_ENV_TEST === 'test'
-      ? config.test.assetsPublicPath
-      : (process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath)
-  },
-  resolve: {
-    extensions: ['.js', '.vue', '.json'],
-    alias: {
-      'vue$': 'vue/dist/vue.runtime.esm.js',
-      '@': resolve('src'),
-      'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../vuesrc/assets'),
-      'components': path.resolve(__dirname, '../vuesrc/components'),
-      'filter': path.resolve(__dirname, '../vuesrc/filter'),
-      'mixin': path.relative(__dirname, '../vuesrc/mixin')
+module.exports = {
+    entry: {
+        main: resolve('src/main.js')
+    },
+    output: {
+        path: resolve('dist'),
+        publicPath: '/',
+        filename: '[name].[hash].js',
+        chunkFilename: '[id].[chunkhash].js'
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+            }
+        }),
+        new ExtractTextPlugin('[name].[contenthash].css'),
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: resolve('src/index.html'),
+            inject: true
+        })
+    ],
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.runtime.esm.js',
+            '@': resolve('src'),
+            'api': resolve('src/api'),
+            'assets': resolve('src/assets'),
+            'components': resolve('src/components'),
+            'config': resolve('src/config'),
+            'directives': resolve('src/directives'),
+            'filters': resolve('src/filters'),
+            'mixins': resolve('src/mixins'),
+            'router': resolve('src/router'),
+            'store': resolve('src/store')
+        }
+    },
+    module: {
+        rules: [{
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                    loaders: utils.cssLoaders({
+                        sourceMap: isProduction && isSourceMap,
+                        extract: isProduction
+                    }),
+                    postcss: [
+                        require('autoprefixer')({
+                            browsers: ['iOS >= 7', 'Android >= 4.1']
+                        })
+                    ]
+                }
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: [resolve('node_modules'), resolve('dist'), resolve('test')]
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                loader: 'url-loader',
+                query: {
+                    limit: 1000,
+                    name: 'img/[name].[ext]'
+                }
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    name: 'fonts/[name].[ext]'
+                }
+            },
+        ]
     }
-  },
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueLoaderConfig
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        // include: [resolve('src'), resolve('test')]
-        exclude: [resolve('node_modules'), resolve('dist'), resolve('src')]
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 1000,
-          name: utils.assetsPath('img/[name].[ext]')
-        }
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: utils.assetsPath('fonts/[name].[ext]')
-        }
-      },
-
-    ]
-  },
-  plugins: [
-	/*
-    // 提取公共模块
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors', // 公共模块的名称
-      chunks: chunks,  // chunks是需要提取的模块
-      minChunks: 4 || chunks.length //公共模块被使用的最小次数。比如配置为3，也就是同一个模块只有被3个以外的页面同时引用时才会被提取出来作为common chunks。
-
-    }),*/
-
-  ]
 }
-
-
-
-module.exports = webpackConfig

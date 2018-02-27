@@ -1,3 +1,5 @@
+// see http://vuejs-templates.github.io/webpack for documentation.
+
 ## 提供的页面
 登录页面
 默认首页
@@ -58,3 +60,38 @@ PC
     多页面
 
 服务器端渲染
+
+
+开发
+    前端本地开发:dev+easyMock
+    后端联调开发:
+        dev+php
+        prod+sourceMap+php
+测试
+    自动化测试:test+php
+    测试人员测试:prod+sourceMap+php
+部署
+    线上部署:prod+php
+
+SERVER_ROOT
+    php_server
+    mock_server
+CDN_ROOT
+    online_cdn
+    offline_cdn
+
+sourceMap
+
+
+
+const MOCK_ROOT = 'A'
+const SERVER_ROOT = 'A'
+
+const LOCAL_DEV_ROOT = 'A'
+
+const ONLINE_CDN = 'A'
+const OFFLINE_CDN = 'A'
+
+
+npm run build --report
+npm run test --map

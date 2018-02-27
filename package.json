@@ -8,11 +8,12 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
-    "test": "vue-cli-service test",
-    "e2e": "vue-cli-service e2e",
-    "lint": "vue-cli-service lint"
+      "dev": "node build/dev-server.js",
+      "build": "webpack --hide-modules --display-chunks --config build/webpack.prod.conf.js",
+      "test": "webpack --progress --watch --hide-modules --display-chunks --config build/webpack.test.conf.js",
+      "precommit": "npm run lint",
+      "lint": "eslint src --ext .js,.vue",
+      "lint:fix": "eslint src --ext .js,.vue --fix"
   },
   "dependencies": {
     "accounting": "^0.4.1",
