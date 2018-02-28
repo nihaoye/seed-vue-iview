@@ -1,7 +1,11 @@
+const opn = require('opn')
+const path = require('path')
 const express = require('express')
 const webpack = require('webpack')
-const webpackConfig = require('./webpack.dev.conf')
 const proxyMiddleware = require('http-proxy-middleware')
+
+const config = require('./config')
+const webpackConfig = require('./webpack.dev.conf')
 
 const app = express()
 
@@ -11,6 +15,7 @@ const compiler = webpack(webpackConfig)
 // 使用 webpack-dev-middleware 中间件
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: webpackConfig.output.publicPath,
+    quiet: true,
     stats: {
         colors: true,
         chunks: false
@@ -38,10 +43,21 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 
-app.listen(8080, function (err) {
+const port = 8080
+const autoOpenBrowser = true
+const uri = 'http://localhost:' + port
+devMiddleware.waitUntilValid(function () {
+    console.log('> 构建完成，已自动在浏览器打开页面，如未自动打开，请手工复制下面的链接，复制到浏览器里打开。')
+    console.log('> Listening at ' + uri + '\n')
+    if (autoOpenBrowser && !config.isTesting) {
+        opn(uri)
+    }
+})
+
+module.exports = app.listen(port, function (err) {
     if (err) {
         console.log(err)
         return
     }
-    console.log('Listening at http://localhost:8080')
+    console.log('\n正在构建初始化中，构建完成后，将自动在浏览器打开页面。')
 })

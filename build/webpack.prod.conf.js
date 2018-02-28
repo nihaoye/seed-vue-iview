@@ -4,16 +4,16 @@ const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 
+const config = require('./config')
 const baseConfig = require('./webpack.base.conf')
-
 
 module.exports = merge(baseConfig, {
     output: {
-        publicPath: 'https://tms3.bytecdn.cn/dist/online/shoptm/'
+        publicPath: config.publicPath
     },
     module: {
         rules: utils.styleLoaders({
-            sourceMap: process.env.npm_config_map,
+            sourceMap: config.isSourceMap,
             extract: true
         })
     },

@@ -1,5 +1,7 @@
-var path = require('path')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+const path = require('path')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+const config = require('./config')
 
 exports.cssLoaders = function(options) {
     options = options || {}
@@ -7,7 +9,7 @@ exports.cssLoaders = function(options) {
     var cssLoader = {
         loader: 'css-loader',
         options: {
-            minimize: process.env.NODE_ENV === 'production',
+            minimize: config.isProduction,
             sourceMap: options.sourceMap
         }
     }

@@ -62,36 +62,56 @@ PC
 服务器端渲染
 
 
-开发
-    前端本地开发:dev+easyMock
-    后端联调开发:
-        dev+php
-        prod+sourceMap+php
-测试
-    自动化测试:test+php
-    测试人员测试:prod+sourceMap+php
-部署
-    线上部署:prod+php
+## 场景
+1. 前端本地开发
+    dev-server + easyMock
+    因为跨域需要代理API-前提是需要识别API
+1. 后端联调开发
+    dev-server + php
+    因为跨域需要代理API-前提是需要识别API
+1. 测试人员测试(后端自测)
+    php+prod+sourceMap
+    没有跨域，不需要代理
+1. 自动化测试
+    dev-server + test
+    没有网络请求
+1. 线上部署
+    php + prod
 
-SERVER_ROOT
-    php_server
-    mock_server
-CDN_ROOT
-    online_cdn
-    offline_cdn
+## 命令解释
+1. npm run dev
+    dev-server本地开发，使用mock服务器
+1. npm run dev --offline
+    dev-server本地开发，使用线下php服务器
+1. npm run build
+    线上部署编译
+1. npm run build --report
+    线上部署编译，并且显示webpack分析报告
+1. npm run test
+    线下开发编译
+1. npm run test --map
+    线下开发编译，并且使用sourceMap，并且使用watch
+1. npm run prod
+    线下开发一次性编译，即不使用watch
+1. npm run e2e
+    执行端到端测试
+1. npm run lint
+    执行eslint检查
+1. npm run lint:fix
+    执行eslint检查，并且修复错误
 
-sourceMap
-
-
-
-const MOCK_ROOT = 'A'
-const SERVER_ROOT = 'A'
-
-const LOCAL_DEV_ROOT = 'A'
-
-const ONLINE_CDN = 'A'
-const OFFLINE_CDN = 'A'
-
-
-npm run build --report
-npm run test --map
+## 全局环境变量
+1. publicPath:
+    1. /
+    1. online
+    1. offline
+1. PROXY_ROOT:
+    1. mock
+    1. offline
+1. API_ROOT:
+    1. /
+    1. /api
+1. LOCAL_ROOT:
+    1. /
+    1. online
+    1. offline

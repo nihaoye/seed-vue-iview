@@ -4,9 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const utils = require('./utils')
-
-const isProduction = process.env.NODE_ENV === 'production'
-const isSourceMap = process.env.npm_config_map
+const config = require('./config')
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
@@ -26,7 +24,9 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-            }
+            },
+            API_ROOT: JSON.stringify(config.apiRoot),
+            LOCAL_ROOT: JSON.stringify(config.localRoot)
         }),
         new ExtractTextPlugin('[name].[contenthash].css'),
         new HtmlWebpackPlugin({
@@ -57,8 +57,8 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loaders: utils.cssLoaders({
-                        sourceMap: isProduction && isSourceMap,
-                        extract: isProduction
+                        sourceMap: config.isProduction && config.isSourceMap,
+                        extract: config.isProduction
                     }),
                     postcss: [
                         require('autoprefixer')({
