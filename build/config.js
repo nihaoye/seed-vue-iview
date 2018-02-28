@@ -15,11 +15,12 @@ const isSourceMap = process.env.npm_config_map
 //npm run build --report
 const isReport = process.env.npm_config_report
 //是否是线上部署
+//npm run build
 //npm run prod --online (production+online)
 const isOnline = process.env.npm_config_online
 //是否是线下开发，有两个场景
 //npm run dev --offline (development+offline)
-//npm run test (production+offline) 这里没有明确使用offline参数
+//npm run test (production+offline) 这里没有明确使用offline参数，是隐含着offline
 const isOffline = process.env.npm_config_offline
 
 //mock服务器
@@ -35,6 +36,7 @@ const OFFLINE_CDN = 'A'
 
 //CDN域名
 //production才需要publicPath
+//dev-server的publicPath都是/
 const publicPath = isOnline ? ONLINE_CDN : OFFLINE_CDN
 //代理API服务器域名
 //dev-server才需要代理

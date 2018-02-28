@@ -38,10 +38,27 @@ app.use(function (req, res, next) {
     next()
 })
 
+// handle fallback for HTML5 history API
+app.use(require('connect-history-api-fallback')(
+    {
+
+    }
+))
+
 // 注册中间件
 app.use(devMiddleware)
 app.use(hotMiddleware)
 
+if(config.apiRoot) {
+    app.use(proxyMiddleware(config.apiRoot, {
+        target: config.proxyRoot,
+        changeOrigin: true,
+        logLevel: 'debug',
+        pathRewrite: {
+            '^/api': ''
+        }
+    }))
+}
 
 const port = 8080
 const autoOpenBrowser = true

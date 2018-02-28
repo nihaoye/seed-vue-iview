@@ -3,6 +3,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const path = require('path')
 const webpack = require('webpack')
+const merge = require('webpack-merge')
+
 const utils = require('./utils')
 const config = require('./config')
 
@@ -36,6 +38,7 @@ module.exports = {
         })
     ],
     resolve: {
+        modules: [resolve('node_modules')],
         extensions: ['.js', '.vue', '.json'],
         alias: {
             'vue$': 'vue/dist/vue.runtime.esm.js',
@@ -52,6 +55,9 @@ module.exports = {
         }
     },
     module: {
+        noParse: function(content) {
+            return /jquery|lodash/.test(content);
+        },
         rules: [{
                 test: /\.vue$/,
                 loader: 'vue-loader',
@@ -69,8 +75,8 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: [resolve('node_modules'), resolve('dist'), resolve('test')]
+                loader: 'babel-loader?cacheDirectory',
+                include: resolve('src')
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
