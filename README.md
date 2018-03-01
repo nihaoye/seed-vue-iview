@@ -101,7 +101,12 @@
 使用iview-loader，集成ionicons
 
 1. 图片路径技巧
-
+    1. 绝对路径-不变
+    1. 相对路径-相对当前文件寻找图片
+    1. 不加前缀-同相对路径
+    1. ~assets-以波浪号为前缀
+        1. 需要配合webpack设置resolve.alias
+        1. 通过alias寻找图片
 
 1. js文件打包成三部分
     1. node_modules文件夹中的vendor.js

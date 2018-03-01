@@ -52,11 +52,11 @@ const localRoot = isOnline ? ONLINE_SERVER_ROOT : (isProduction ? OFFLINE_SERVER
 const title = '放心购'
 //编译后的html文件路径
 // const filename = isProduction ? '../Smart/Public/index.html' : 'index.html'
-const filename = '../index.html'
+const filename = 'index.html'
 //html模版路径
-const template = '../src/index.html'
+const template = 'src/index.html'
 //网页icon
-const favicon = ''
+const favicon = 'src/assets/logo.png'
 
 module.exports = {
     isDevelopment,

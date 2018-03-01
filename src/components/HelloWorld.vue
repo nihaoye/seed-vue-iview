@@ -56,26 +56,26 @@
                 target="_blank">awesome-vue</a></li>
         </ul>
         <div>
-            <img 
-                src="/src/assets/logo.png" 
+            <img
+                src="/src/assets/logo.png"
                 alt="图片1">
 
-            <img 
-                src="~src/assets/logo.png" 
+            <img
+                src="~src/assets/logo.png"
                 alt="图片5">
 
-            <img 
-                src="/assets/logo.png" 
+            <img
+                src="/assets/logo.png"
                 alt="图片11">
 
-            <img 
-                src="../assets/logo.png" 
+            <img
+                src="../assets/logo.png"
                 alt="图片13">
-            <img 
-                src="assets/logo.png" 
+            <img
+                src="assets/logo.png"
                 alt="图片14">
-            <img 
-                src="~assets/logo.png" 
+            <img
+                src="~assets/logo.png"
                 alt="图片15">
         </div>
     </div>
