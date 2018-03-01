@@ -32,8 +32,10 @@ module.exports = {
         }),
         new ExtractTextPlugin('[name].[contenthash].css'),
         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: resolve('src/index.html'),
+            title: config.title,
+            filename: config.filename,
+            template: config.template,
+            favicon: config.favicon,
             inject: true
         })
     ],
@@ -43,6 +45,7 @@ module.exports = {
         alias: {
             'vue$': 'vue/dist/vue.runtime.esm.js',
             '@': resolve('src'),
+            'src': resolve('src'),
             'api': resolve('src/api'),
             'assets': resolve('src/assets'),
             'components': resolve('src/components'),
@@ -67,9 +70,7 @@ module.exports = {
                         extract: config.isProduction
                     }),
                     postcss: [
-                        require('autoprefixer')({
-                            browsers: ['iOS >= 7', 'Android >= 4.1']
-                        })
+                        require('autoprefixer')()
                     ]
                 }
             },

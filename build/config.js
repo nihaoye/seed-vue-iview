@@ -1,3 +1,4 @@
+const path = require('path')
 //是否是开发模式
 //特点是使用dev-server
 const isDevelopment = process.env.NODE_ENV === 'development'
@@ -46,6 +47,17 @@ const apiRoot = isDevelopment ? '/api' : ''
 //dev-server才需要代理，配合代理过滤API接口
 const localRoot = isOnline ? ONLINE_SERVER_ROOT : (isProduction ? OFFLINE_SERVER_ROOT : '')
 
+//HtmlWebpackPlugin配置参数
+//网页title
+const title = '放心购'
+//编译后的html文件路径
+// const filename = isProduction ? '../Smart/Public/index.html' : 'index.html'
+const filename = '../index.html'
+//html模版路径
+const template = '../src/index.html'
+//网页icon
+const favicon = ''
+
 module.exports = {
     isDevelopment,
     isProduction,
@@ -58,4 +70,8 @@ module.exports = {
     proxyRoot,
     apiRoot,
     localRoot,
+    title,
+    filename,
+    template,
+    favicon,
 }
