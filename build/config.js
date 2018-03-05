@@ -57,6 +57,10 @@ const filename = 'index.html'
 const template = 'src/index.html'
 //网页icon
 const favicon = 'src/assets/logo.png'
+//本地mock-json的接口
+const mockTable = [
+    '/api/channel/list'
+]
 
 module.exports = {
     isDevelopment,
@@ -74,4 +78,5 @@ module.exports = {
     filename,
     template,
     favicon,
+    mockTable
 }

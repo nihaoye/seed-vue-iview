@@ -61,13 +61,6 @@
         1. 使用package.json中的browserslist
 
 
-## 暂未支持功能
-1. Unit Testing
-1. E2E Testing
-1. happypack
-1. dllplugin
-
-
 ## 全局环境变量
 1. process.env.NODE_ENV
     1. development
@@ -82,13 +75,6 @@
     1. offline
 
 
-## 提供的页面
-    登录页面
-    默认首页
-    登录后首页
-    登录后组件页面
-
-
 ## 使用注意事项
 1. 接口代理技巧
 修改build/config.js文件中的MOCK_ROOT和OFFLINE_SERVER_ROOT，分别代表mock服务器和线下服务器
@@ -99,6 +85,7 @@
 
 1. 使用iview框架
 使用iview-loader，集成ionicons
+注意组件的大小写，组件统一采用首字母大写的Pascal格式
 
 1. 图片路径技巧
     1. 绝对路径-不变
@@ -132,7 +119,33 @@ vue文件中style标签默认支持css module
 统一使用唯一的统计方法：stats(event, options)
 event是事件名称，是一个字符串
 options则是事件的补充描述，是一个对象
+该方法是抽象的，底层会自动调用google/baidu/...
 
 1. husky
 提供了git commit hook
 即当执行git commit时，会先执行npm run lint，只有通过检查才能提交代码
+
+1. 依赖权限系统
+    1. 权限系统配置用户+角色+权限+菜单
+    1. 通过接口返回该用户的权限列表以及可访问的菜单列表
+    1. 通过菜单列表动态创建菜单树以及路由系统
+
+1. easyMock搭建
+    https://github.com/easy-mock/easy-mock-cli
+
+#### Todo
+1. 本地json-mock
+1. sourceMap-开发模式
+1. 自动化测试
+    1. 单元测试 - Unit Testing
+    1. 端到端测试 - E2E Testing
+1. happypack
+1. dllplugin
+1. iview框架
+1. es6-promise-polyfill
+1. css module
+#### 提供的页面
+1. 登录页面
+1. 默认首页
+1. 登录后首页
+1. 登录后组件页面

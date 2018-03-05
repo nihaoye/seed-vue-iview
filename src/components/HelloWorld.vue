@@ -57,31 +57,32 @@
         </ul>
         <div>
             <img
-                src="/src/assets/logo.png"
+                src1="/src/assets/logo.png"
                 alt="图片1">
-
             <img
                 src="~src/assets/logo.png"
                 alt="图片5">
-
             <img
-                src="/assets/logo.png"
+                src1="/assets/logo.png"
                 alt="图片11">
-
             <img
                 src="../assets/logo.png"
                 alt="图片13">
             <img
-                src="assets/logo.png"
+                src1="assets/logo.png"
                 alt="图片14">
             <img
                 src="~assets/logo.png"
                 alt="图片15">
         </div>
+
+        <div>{{result}}</div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'HelloWorld',
     props: {
@@ -90,6 +91,21 @@ export default {
             default: '',
         },
     },
+    data() {
+        return {
+            result: {
+                name: 'hgm',
+                age: 123
+            }
+        }
+    },
+    mounted() {
+        axios.get('/api/channel/list').then((res) => {
+            this.result = res.data;
+        }).catch(e => {
+            console.log(e)
+        })
+    }
 }
 </script>
 

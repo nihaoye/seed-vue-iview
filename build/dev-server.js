@@ -4,8 +4,8 @@ const express = require('express')
 const webpack = require('webpack')
 const proxyMiddleware = require('http-proxy-middleware')
 
-const config = require('./config')
 const webpackConfig = require('./webpack.dev.conf')
+const config = require('./config')
 
 const app = express()
 
@@ -49,8 +49,29 @@ app.use(require('connect-history-api-fallback')(
 app.use(devMiddleware)
 app.use(hotMiddleware)
 
+var filter = function (pathname) {
+    return pathname.match('^' + config.apiRoot) && !config.mockTable.includes(pathname)
+}
+
 if(config.apiRoot) {
-    app.use(proxyMiddleware(config.apiRoot, {
+    app.use(function(req, res, next) {
+        var pathname = req.path
+        if(filter(pathname)) {
+            //使用easymock模拟数据
+            next()
+        } else {
+            //在mockTable中，则使用本地的json数据mock
+            if(config.mockTable.includes(pathname)) {
+                pathname = pathname.replace(config.apiRoot, '')
+                res.json(require('../mock' + pathname))
+            } else {
+                res.json({
+                    msg: '模拟数据失败，因为没有以' + config.apiRoot + '为前缀，同时没有在mockTable名单中'
+                })
+            }
+        }
+    })
+    app.use(proxyMiddleware(filter, {
         target: config.proxyRoot,
         changeOrigin: true,
         logLevel: 'debug',
