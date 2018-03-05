@@ -76,7 +76,7 @@
                 alt="图片15">
         </div>
 
-        <div>{{result}}</div>
+        <div>{{ result }}</div>
     </div>
 </template>
 
@@ -95,8 +95,8 @@ export default {
         return {
             result: {
                 name: 'hgm',
-                age: 123
-            }
+                age: 123,
+            },
         }
     },
     mounted() {
@@ -105,7 +105,7 @@ export default {
         }).catch(e => {
             console.log(e)
         })
-    }
+    },
 }
 </script>
 

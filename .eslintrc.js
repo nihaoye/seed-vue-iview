@@ -19,7 +19,7 @@ module.exports = {
         "comma-dangle": ["error", "always-multiline"],
 
         "vue/html-self-closing": "off",
-        // "no-console": "off",
+        "no-console": "off",
         // "no-undef": "off",
         // "no-unused-vars": "off",
         // "no-useless-escape": "off",
