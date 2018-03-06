@@ -15,9 +15,7 @@ Object.keys(baseConfig.entry).forEach(function(name) {
 })
 
 module.exports = merge(baseConfig, {
-    module: {
-        rules: utils.styleLoaders()
-    },
+    devtool: 'cheap-module-eval-source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),

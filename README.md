@@ -145,10 +145,21 @@ options则是事件的补充描述，是一个对象
 https://vue-loader.vuejs.org/zh-cn/features/css-modules.html
 https://github.com/css-modules/css-modules
 
+1. sourceMap相关
+https://doc.webpack-china.org/configuration/devtool/
+https://survivejs.com/webpack/building/source-maps/
+http://cheng.logdown.com/posts/2016/03/25/679045
+开发模式可以选择 cheap-module-eval-source-map
+产品模式可以选择 source-map
+webpack配置中的devtool属性必须配置，而且css-loader和UglifyJsPlugin等插件都必须配置sourceMap: true
+
+另外一种思路，开发时不需要配置sourceMap，联调的时候打包source-map，线上部署也不配置sourceMap，因为不想暴露源码
+当前项目已经默认配置了devtool，但是构建的时候相关loader默认是关闭的，需要手动指定--map参数
+
+1. iview框架
+所有组件都必须是首字母大写，已经在webpack.base.conf.js文件中配置过了，除非修改prefix: true
 
 #### Todo
-1. sourceMap-开发模式
-1. iview框架
 1. 自动化测试
     1. 单元测试 - Unit Testing
     1. 端到端测试 - E2E Testing

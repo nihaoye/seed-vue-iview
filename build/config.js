@@ -10,10 +10,8 @@ const isProduction = process.env.NODE_ENV === 'production'
 const isTesting = process.env.NODE_ENV === 'testing'
 
 //线下测试可以启用sourcemap
-//npm run test --map
-const isSourceMap = process.env.npm_config_map
+const isSourceMap = process.env.npm_config_map === 'true'
 //webpack-bundle-analyzer
-//npm run build --report
 const isReport = process.env.npm_config_report
 //是否是线上部署
 //npm run build

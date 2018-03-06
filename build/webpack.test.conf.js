@@ -9,12 +9,6 @@ const config = require('./config')
 const baseConfig = require('./webpack.base.conf')
 
 module.exports = merge(baseConfig, {
-    module: {
-        rules: utils.styleLoaders({
-            sourceMap: config.isSourceMap,
-            extract: true
-        })
-    },
     plugins: [
 
     ]

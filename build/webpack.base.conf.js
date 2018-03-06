@@ -65,20 +65,31 @@ module.exports = {
         noParse: function(content) {
             return /jquery|lodash/.test(content);
         },
-        rules: [{
+        rules: [
+            {
                 test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    loaders: utils.cssLoaders({
-                        sourceMap: config.isProduction && config.isSourceMap,
-                        extract: config.isProduction
-                    }),
-                    postcss: [ require('autoprefixer')() ],
-                    cssModules: {
-                        localIdentName: '[path][name]---[local]---[hash:base64:5]',
-                        camelCase: true
+                use: [
+                    {
+                        loader: 'vue-loader',
+                        options: {
+                            loaders: utils.cssLoaders({
+                                sourceMap: config.isSourceMap,
+                                extract: config.isProduction
+                            }),
+                            postcss: [ require('autoprefixer')() ],
+                            cssModules: {
+                                localIdentName: '[path][name]---[local]---[hash:base64:5]',
+                                camelCase: true
+                            }
+                        }
+                    },
+                    {
+                        loader: 'iview-loader',
+                        options: {
+                            prefix: false
+                        }
                     }
-                }
+                ]
             },
             {
                 test: /\.js$/,
@@ -101,6 +112,10 @@ module.exports = {
                     name: 'fonts/[name].[ext]'
                 }
             },
+            ...utils.styleLoaders({
+                sourceMap: config.isSourceMap,
+                extract: config.isProduction
+            })
         ]
     }
 }

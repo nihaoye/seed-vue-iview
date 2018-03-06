@@ -14,14 +14,9 @@ const baseConfig = require('./webpack.base.conf')
 
 module.exports = merge(baseConfig, {
     bail: true, //ci直接报错
+    devtool: 'source-map',
     output: {
         publicPath: config.publicPath
-    },
-    module: {
-        rules: utils.styleLoaders({
-            sourceMap: config.isSourceMap,
-            extract: true
-        })
     },
     plugins: [
         new UglifyJsPlugin({
