@@ -1,13 +1,13 @@
 <template>
-    <div class="hello">
-        <h1>{{ msg }}</h1>
+    <div :class="helloa.hello">
+        <h1>{{ msg }}<span>hahhahaha</span></h1>
         <p>
             For guide and recipes on how to configure / customize this project,<br> check out the
             <a
                 href="https://github.com/vuejs/vue-cli/tree/dev/docs"
                 target="_blank">vue-cli documentation</a>.
         </p>
-        <h3>Installed CLI Plugins</h3>
+        <h3 :class="worldb.hello">Installed CLI Plugins</h3>
         <ul>
             <li><a
                 href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
@@ -110,7 +110,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style module="helloa" lang="scss">
 .hello {
     background: green;
 
@@ -121,24 +121,34 @@ export default {
         box-sizing: border-box;
         box-shadow: 0 0 1px 1px 9px red;
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+        span {
+            color: green;
+        }
+    }
+
+    h3 {
+        margin: 40px 0 0;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        display: inline-block;
+        margin: 0 10px;
+    }
+
+    a {
+        color: #42b983;
     }
 }
+</style>
 
-h3 {
-    margin: 40px 0 0;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-a {
-    color: #42b983;
+<style module="worldb" lang="scss">
+.hello {
+    background: purple;
 }
 </style>

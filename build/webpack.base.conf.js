@@ -30,6 +30,10 @@ module.exports = {
             API_ROOT: JSON.stringify(config.apiRoot),
             LOCAL_ROOT: JSON.stringify(config.localRoot)
         }),
+        new webpack.ProvidePlugin({
+            "_": 'lodash',
+            "Promise": ['es6-promise', 'Promise']
+        }),
         new ExtractTextPlugin('[name].[contenthash].css'),
         new HtmlWebpackPlugin({
             title: config.title,
@@ -69,9 +73,11 @@ module.exports = {
                         sourceMap: config.isProduction && config.isSourceMap,
                         extract: config.isProduction
                     }),
-                    postcss: [
-                        require('autoprefixer')()
-                    ]
+                    postcss: [ require('autoprefixer')() ],
+                    cssModules: {
+                        localIdentName: '[path][name]---[local]---[hash:base64:5]',
+                        camelCase: true
+                    }
                 }
             },
             {

@@ -133,17 +133,27 @@ options则是事件的补充描述，是一个对象
 1. easyMock搭建
     https://github.com/easy-mock/easy-mock-cli
 
-#### Todo
 1. 本地json-mock
+    在mock文件夹中写数据文件就可以了，注意与路径匹配
+
+1. 使用webpack.ProvidePlugin插件全局导出
+    1. es6-promise，
+    1. lodash
+
+1. css module 结合 SCSS
+解决scope方式慢的缺点
+https://vue-loader.vuejs.org/zh-cn/features/css-modules.html
+https://github.com/css-modules/css-modules
+
+
+#### Todo
 1. sourceMap-开发模式
+1. iview框架
 1. 自动化测试
     1. 单元测试 - Unit Testing
     1. 端到端测试 - E2E Testing
 1. happypack
 1. dllplugin
-1. iview框架
-1. es6-promise-polyfill
-1. css module
 #### 提供的页面
 1. 登录页面
 1. 默认首页
