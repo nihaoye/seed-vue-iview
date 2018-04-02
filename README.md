@@ -165,6 +165,7 @@ webpack配置中的devtool属性必须配置，而且css-loader和UglifyJsPlugin
     1. 端到端测试 - E2E Testing
 1. happypack
 1. dllplugin
+1. 使用yarn
 #### 提供的页面
 1. 登录页面
 1. 默认首页
