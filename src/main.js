@@ -14,10 +14,18 @@ function componentFn(com) {
 }
 
 function initRouter(res) {
+    router.addRoutes(
+        [
+            {
+                path: '/',
+                component: componentFn('/index/index'),
+            },
+        ]
+    );
     if(res && res.data && res.data.data && res.data.data.menu) {
         var homeIndex = {
             path: '/',
-            component: componentFn('/home/index'),
+            component: componentFn('/home/frame'),
         }
         homeIndex.children = res.data.data.menu.map(function(item) {
             var c = item.component;
@@ -28,10 +36,6 @@ function initRouter(res) {
     }
     router.addRoutes(
         [
-            {
-                path: '/',
-                component: componentFn('/home/index'),
-            },
             {
                 path: '*',
                 redirect: '/',

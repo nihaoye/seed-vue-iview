@@ -57,22 +57,22 @@
         </ul>
         <div>
             <img
-                src1="/src/assets/logo.png"
+                src1="/src/assets/img/logo.png"
                 alt="图片1">
             <img
-                src="~src/assets/logo.png"
+                src="~src/assets/img/logo.png"
                 alt="图片5">
             <img
-                src1="/assets/logo.png"
+                src1="/assets/img/logo.png"
                 alt="图片11">
             <img
-                src="../assets/logo.png"
+                src="../assets/img/logo.png"
                 alt="图片13">
             <img
-                src1="assets/logo.png"
+                src1="assets/img/logo.png"
                 alt="图片14">
             <img
-                src="~assets/logo.png"
+                src="~assets/img/logo.png"
                 alt="图片15">
         </div>
 

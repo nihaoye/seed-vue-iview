@@ -54,7 +54,7 @@ const filename = 'index.html'
 //html模版路径
 const template = 'src/index.html'
 //网页icon
-const favicon = 'src/assets/logo.png'
+const favicon = 'src/assets/img/logo.png'
 //本地mock-json的接口
 const mockTable = [
     '/api/common/index',
