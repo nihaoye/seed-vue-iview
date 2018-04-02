@@ -7,6 +7,10 @@ module.exports = {
         },
         menu: [
             {
+                path: '/dashboard',
+                component: '/dashboard/index'
+            },
+            {
                 path: '/goods/list',
                 component: '/goods/list'
             },

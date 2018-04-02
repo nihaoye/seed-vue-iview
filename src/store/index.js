@@ -29,6 +29,38 @@ export default new Vuex.Store({
         isOperator(state, getters) {
             return getters.type === 1;
         },
+        menus() {
+            return [
+                {
+                    name: '订单菜单',
+                    icon: 'ios-navigate',
+                    children: [
+                        {
+                            name: '订单列表',
+                            path: '/order/list',
+                        },
+                        {
+                            name: '订单详情',
+                            path: '/order/detail',
+                        },
+                    ],
+                },
+                {
+                    name: '商品菜单',
+                    icon: 'ios-navigate',
+                    children: [
+                        {
+                            name: '商品列表',
+                            path: '/goods/list',
+                        },
+                        {
+                            name: '商品详情',
+                            path: '/goods/detail',
+                        },
+                    ],
+                },
+            ];
+        },
     },
     mutations: {
         setCode(state, code) {

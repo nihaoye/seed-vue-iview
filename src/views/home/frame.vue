@@ -81,39 +81,29 @@
                 collapsible
             >
                 <Menu
-                    :open-names="['1']"
                     :class="menuitemClasses"
-                    active-name="1-2"
                     theme="dark"
                     width="auto"
+                    @on-select="clickMenu"
                 >
                     <MenuItem
-                        name="0"
-                        class="layout-logo">放心购联盟系统</MenuItem>
-                    <Submenu name="1">
+                        name="/dashboard"
+                        class="layout-logo"
+                    >放心购联盟系统</MenuItem>
+                    <Submenu
+                        v-for="(m, mIndex) in $store.getters.menus"
+                        :name="mIndex"
+                        :key="mIndex"
+                    >
                         <template slot="title">
-                            <Icon type="ios-navigate"></Icon>
-                            Item 1
+                            <Icon :type="m.icon"></Icon>
+                            <span v-text="m.name"></span>
                         </template>
-                        <MenuItem name="1-1">Option 1</MenuItem>
-                        <MenuItem name="1-2">Option 2</MenuItem>
-                        <MenuItem name="1-3">Option 3</MenuItem>
-                    </Submenu>
-                    <Submenu name="2">
-                        <template slot="title">
-                            <Icon type="ios-keypad"></Icon>
-                            Item 2
-                        </template>
-                        <MenuItem name="2-1">Option 1</MenuItem>
-                        <MenuItem name="2-2">Option 2</MenuItem>
-                    </Submenu>
-                    <Submenu name="3">
-                        <template slot="title">
-                            <Icon type="ios-analytics"></Icon>
-                            Item 3
-                        </template>
-                        <MenuItem name="3-1">Option 1</MenuItem>
-                        <MenuItem name="3-2">Option 2</MenuItem>
+                        <MenuItem
+                            v-for="sm in m.children"
+                            :name="sm.path"
+                            :key="sm.path"
+                            v-text="sm.name"></MenuItem>
                     </Submenu>
                 </Menu>
                 <div slot="trigger"></div>
@@ -168,6 +158,12 @@ export default {
     },
     mounted() {
         // alert(123);
+    },
+    methods: {
+        clickMenu(path) {
+            console.log('path: ', path);
+            this.$router.push({path:path});
+        },
     },
 }
 </script>
