@@ -14,7 +14,7 @@ function resolve(dir) {
 
 module.exports = {
     entry: {
-        main: resolve('src/main.js')
+        main: ['babel-polyfill', resolve('src/main.js')]
     },
     output: {
         path: resolve('dist'),
@@ -31,8 +31,7 @@ module.exports = {
             LOCAL_ROOT: JSON.stringify(config.localRoot)
         }),
         new webpack.ProvidePlugin({
-            "_": 'lodash',
-            "Promise": ['es6-promise', 'Promise']
+            "_": 'lodash'
         }),
         new ExtractTextPlugin('[name].[contenthash].css'),
         new HtmlWebpackPlugin({

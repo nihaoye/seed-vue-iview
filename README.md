@@ -101,16 +101,9 @@
     1. manifest.js
         1. manifest文件直接内联到index.html文件中
 
-1. 支持全局es6-promise-polyfill
-全局引入require('es6-promise').polyfill()
-
-1. 全局fastclick
-暂不支持，移动端才需要fastclick
+1. 全局babel-polyfill
 
 1. 使用axios代替jquery的ajax，避免使用jquery
-全局引入axios库
-
-1. 全局方法统一使用Lib.js来导出
 
 1. css module
 vue文件中style标签默认支持css module
@@ -137,7 +130,6 @@ options则是事件的补充描述，是一个对象
     在mock文件夹中写数据文件就可以了，注意与路径匹配
 
 1. 使用webpack.ProvidePlugin插件全局导出
-    1. es6-promise，
     1. lodash
 
 1. css module 结合 SCSS

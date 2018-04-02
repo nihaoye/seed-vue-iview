@@ -40,7 +40,9 @@ module.exports = {
         // "no-dupe-keys": "off",
         // "vue/no-textarea-mustache": "off",
         // "vue/valid-v-if": "off",
-        // "vue/no-parsing-error": "off",
+        "vue/no-parsing-error": [2, {
+            "x-invalid-end-tag": false
+        }],
         // "vue/valid-v-bind": "off",
         // "vue/valid-v-model": "off"
     }

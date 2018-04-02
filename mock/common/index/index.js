@@ -7,10 +7,6 @@ module.exports = {
         },
         menu: [
             {
-                path: '/home',
-                component: '/home/detail'
-            },
-            {
                 path: '/goods/list',
                 component: '/goods/list'
             },
@@ -25,7 +21,7 @@ module.exports = {
             {
                 path: '/order/detail',
                 component: '/order/detail'
-            },
+            }
         ]
     }
 }

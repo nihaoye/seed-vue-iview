@@ -9,17 +9,34 @@ import api from 'api'
 
 Vue.config.productionTip = false
 
+function componentFn(com) {
+    return resolve => require(['./views' + com], resolve);
+}
+
 function initRouter(res) {
-    router.addRoutes(res.data.data.menu.map(function(item) {
-        var c = item.component;
-        item.component = resolve => require(['./views' + c + '.vue'], resolve);
-        return item;
-    }));
+    if(res && res.data && res.data.data && res.data.data.menu) {
+        var homeIndex = {
+            path: '/',
+            component: componentFn('/home/index'),
+        }
+        homeIndex.children = res.data.data.menu.map(function(item) {
+            var c = item.component;
+            item.component = componentFn(c);
+            return item;
+        })
+        router.addRoutes([homeIndex]);
+    }
     router.addRoutes(
-        [{
-            path: '*',
-            redirect: '/home',
-        }]
+        [
+            {
+                path: '/',
+                component: componentFn('/home/index'),
+            },
+            {
+                path: '*',
+                redirect: '/',
+            },
+        ]
     );
 }
 
