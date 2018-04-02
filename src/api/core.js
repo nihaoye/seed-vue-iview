@@ -1,23 +1,28 @@
-import router from '../router/index.js';
+// import router from '../router/index.js';
 import store from '../store/index.js';
 import Vue from 'vue'
 import iView from 'iview'
 import axios from 'axios'
+import qs from 'qs'
 
 Vue.use(iView);
 
 axios.defaults.timeout = 5000;
-axios.defaults.baseURL = 'https://api.example.com';
+// axios.defaults.baseURL = 'https://api.example.com';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 axios.interceptors.request.use(function(config) {
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
         config.url = '/api' + config.url;
     }
     if(config.method === 'get') {
+        config.params = config.params || {};
         config.params.__t = new Date().getTime();
+        config.params.__token = store.state.user.token;
+    } else {
+        config.data = config.data || {};
+        config.data.__token = store.state.user.token;
     }
-    config.data.__token = store.state.user.token;
     return config;
 }, function(error) {
     return Promise.reject(error);
@@ -33,86 +38,61 @@ axios.interceptors.response.use(function(response) {
     return Promise.reject(error);
 });
 
+function errorLog(msg) {
+    Vue.prototype.$Message.error(msg || '接口请求失败了');
+}
+
 function sendAjax(settings) {
     return axios(settings).catch(handleAjaxErrorCode);
 }
 
-function handleAjaxErrorCode(res) {
-    const $body = $('body');
-    const hasPrevModal = $body.hasClass('modal-open');
-
-    if (res.code == '10005') {
-        store.commit('logout');
-        const {
-            hash
-        } = window.location;
-        if (white_urls.includes(hash.slice(1))) return;
-        router.push('/index/home');
-        // this.goToLogin();
-    } else if (res.code == '10004') {
-        store.commit('disable');
-        router.push('/index/home');
-    } else if (res.code == '10008') {
-        store.commit('setUserInValid', res.data);
-    } else if (res.code == '10010') {
-        this.sendAjax({
-            url: '/common/index/index',
-            type: 'GET',
-            dataType: 'json'
-        }).done(function(res) {
-            store.commit('updateUserInfo', {
-                token: res.data.token
+function handleAjaxErrorCode(error) {
+    if(error.response) {
+        var res = error.response.data;
+        if(res.code === 10005) {
+            //未登录去首页
+        } else if(res.code === 10004) {
+            //账户被封禁去商户解禁页面
+            errorLog(res.message)
+        } else if(res.code === 10008) {
+            //非法用户，越权访问，toast提示
+            errorLog(res.message)
+        } else if(res.code === 10010) {
+            //token失效，toast提示，并且自动获取新的token
+            errorLog(res.message)
+            sendAjax({
+                url: '/common/index/index',
+            }).done(function(res) {
+                store.commit('updateUserInfo', {
+                    token: res.data.token,
+                });
             });
-        });
-        bootbox.alert({
-            message: 'Token失效了，请重试！',
-            callback: function() {
-                if (hasPrevModal) {
-                    setTimeout(function() {
-                        $body.addClass('modal-open');
-                    }, 500);
-                }
-            }
-        });
+        } else {
+            //默认toast提示
+            errorLog(res.message)
+        }
+        console.error(error.response);
+    } else if(error.request) {
+        console.error(error.request);
     } else {
-        res.msg = res.msg || '操作失败了';
-        bootbox.alert({
-            message: res.msg,
-            callback: function() {
-                if (hasPrevModal) {
-                    setTimeout(function() {
-                        $body.addClass('modal-open');
-                    }, 500);
-                }
-            }
-        });
+        console.error('Error', error.message);
     }
+    console.error(error.config);
 }
 
-
-
-
-
-function goToLogin() {
-    var checkTimes = localStorage.getItem('check_times') || 1;
-    checkTimes *= 1;
-    if (checkTimes < 4) {
-        checkTimes += 1;
-        localStorage.setItem('check_times', checkTimes);
-        var next = encodeURIComponent(location.protocol + '//' + location.host);
-        location.href = 'https://sso.toutiao.com/login/?service=' + next;
-    } else {
-        localStorage.setItem('check_times', 1);
-    }
+/*
+ * 下载文件
+ */
+function downloadFile(path, query) {
+    query = query || {};
+    query.__token = store.state.user.token;
+    var url = location.protocol + '//' + location.host + path + '?' + qs.stringify(query);
+    clickAnchor(url);
 }
 
-function downloadFile(query, path) {
-    var self = this;
-    var token = store.state.user.token;
-    var url = location.protocol + '//' + location.host + path + '?' + $.param(query) + '&__token=' + token;
-    self.clickAnchor(url);
-}
-
+/*
+ * 在新页面打开链接
+ */
 function clickAnchor(url) {
     var a = document.getElementById('__downloadLink__');
     if (!a) {
@@ -126,9 +106,30 @@ function clickAnchor(url) {
     a.click();
 }
 
+/*
+ * 去登录，防止登录状态不同步，需要做重试次数限制
+ */
+function goToLogin() {
+    var checkTimes = localStorage.getItem('check_times') || 1;
+    checkTimes *= 1;
+    if (checkTimes < 4) {
+        checkTimes += 1;
+        localStorage.setItem('check_times', checkTimes);
+        var next = encodeURIComponent(location.protocol + '//' + location.host);
+        location.href = 'https://sso.toutiao.com/login/?service=' + next;
+    } else {
+        localStorage.setItem('check_times', 1);
+    }
+}
+
+/*
+ * 登出接口
+ * 先登出自己系统
+ * 再调用SSO的登出服务
+ */
 function logout() {
     sendAjax({
-        url: '/index/dologout'
+        url: '/index/dologout',
     }).then(function() {
         var url = 'https://sso.toutiao.com/logout/';
         if (store.state.user.toutiao_type === 'huoshan') {
@@ -142,5 +143,9 @@ function logout() {
 }
 
 export default {
-
+    goToLogin,
+    logout,
+    downloadFile,
+    clickAnchor,
+    sendAjax,
 };

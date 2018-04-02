@@ -23,7 +23,7 @@ const isOnline = process.env.npm_config_online
 const isOffline = process.env.npm_config_offline
 
 //mock服务器
-const MOCK_ROOT = 'A'
+const MOCK_ROOT = 'http://temai-api.byted.org/mockjs/5ac24131fc9a27001e425763'
 //线上服务器
 const ONLINE_SERVER_ROOT = 'A'
 //线下服务器
@@ -57,7 +57,7 @@ const template = 'src/index.html'
 const favicon = 'src/assets/logo.png'
 //本地mock-json的接口
 const mockTable = [
-    '/api/channel/list'
+    '/api/common/index',
 ]
 
 module.exports = {

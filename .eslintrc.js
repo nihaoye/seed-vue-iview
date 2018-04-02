@@ -10,6 +10,10 @@ module.exports = {
         "browser": true,
         "es6": true
     },
+    "globals": {
+        "process": true,
+        "require": true,
+    },
     "rules": {
         //缩进
         "indent": ["error", 4],
