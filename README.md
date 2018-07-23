@@ -165,6 +165,14 @@ webpack配置中的devtool属性必须配置，而且css-loader和UglifyJsPlugin
     1. 端到端测试 - E2E Testing
 1. happypack
 1. dllplugin
+1. 缓冲-交互动画
+1. jasmine + jest + mocha + karma
+1. 日志收集分析可视化展示系统
+1. sentry收集BUG日志
+1. API管理系统-支持数据mock-easyMock
+1. 权限菜单管理系统
+1. 持续集成/部署上线系统
+1. 强大的KV配置系统
 #### 提供的页面
 1. 登录页面
 1. 默认首页
