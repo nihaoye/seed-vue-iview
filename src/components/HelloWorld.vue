@@ -1,6 +1,6 @@
 <template>
     <div :class="helloa.hello">
-        <h1>{{ msg }}<span>hahhahaha</span></h1>
+        <h1 @click="messageHello">{{ msg }}<span>hahhahaha</span></h1>
         <p>
             For guide and recipes on how to configure / customize this project,<br> check out the
             <a
@@ -57,22 +57,22 @@
         </ul>
         <div>
             <img
-                src1="/src/assets/logo.png"
+                src1="/src/assets/img/logo.png"
                 alt="图片1">
             <img
-                src="~src/assets/logo.png"
+                src="~src/assets/img/logo.png"
                 alt="图片5">
             <img
-                src1="/assets/logo.png"
+                src1="/assets/img/logo.png"
                 alt="图片11">
             <img
-                src="../assets/logo.png"
+                src="../assets/img/logo.png"
                 alt="图片13">
             <img
-                src1="assets/logo.png"
+                src1="assets/img/logo.png"
                 alt="图片14">
             <img
-                src="~assets/logo.png"
+                src="~assets/img/logo.png"
                 alt="图片15">
         </div>
 
@@ -81,7 +81,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import Vue from 'vue'
+import api from 'api'
 
 export default {
     name: 'HelloWorld',
@@ -100,11 +101,17 @@ export default {
         }
     },
     mounted() {
-        axios.get('/api/channel/list').then((res) => {
+        api.goods.getGoodsList({}, 1, 2).then((res) => {
             this.result = res.data;
         }).catch(e => {
             console.log(e)
         })
+    },
+    methods: {
+        messageHello() {
+            console.log('HelloWorld');
+            Vue.prototype.$Message.error('操作失败了')
+        },
     },
 }
 </script>
